@@ -1,0 +1,25 @@
+{
+  "name": "rasei",
+  "version": "1.0.0",
+  "description": "A complete guide for creating a maximalist, cinematic, and immersive landing page for the BLAZE KNIFE game, based on the samurai-themed, fire-and-blade aesthetic with Japanese/feudal elements.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "framer-motion": "^12.23.22",
+    "lottie-react": "^2.4.1",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-particles": "^2.12.2",
+    "styled-components": "^6.1.19"
+  }
+}

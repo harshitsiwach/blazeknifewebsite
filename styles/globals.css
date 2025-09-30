@@ -1,0 +1,321 @@
+:root {
+  --primary-red: #D03333;
+  --sunset-orange: #FF6D01;
+  --fire-yellow: #FFB84D;
+  --deep-crimson: #6B0000;
+  --night-black: #1A1A1A;
+  --charcoal: #2D2D2D;
+  --smoke-gray: #4A4A4A;
+  --gold-accent: #FFD700;
+  --sunset-gradient: linear-gradient(180deg, var(--primary-red) 0%, var(--deep-crimson) 50%, var(--night-black) 100%);
+  --fire-glow: radial-gradient(circle, var(--fire-yellow) 0%, var(--sunset-orange) 50%, transparent 100%);
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hero-section {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  background: var(--sunset-gradient);
+}
+
+.background-layers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.sunset-sky {
+  background: linear-gradient(180deg, 
+    var(--primary-red) 0%, 
+    var(--sunset-orange) 30%, 
+    var(--deep-crimson) 70%, 
+    var(--night-black) 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.pagoda-silhouettes {
+  background: url('/pagoda-silhouettes.svg') no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  color: #FFFFFF;
+}
+
+.game-logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px var(--sunset-orange));
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+
+.game-title {
+  font-family: 'The Last Shuriken', serif;
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-shadow: 
+    0 0 10px var(--sunset-orange),
+    0 0 20px var(--primary-red),
+    0 0 30px var(--deep-crimson);
+  margin-bottom: 10px;
+}
+
+.sub-text {
+  font-family: 'The Last Shuriken', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: #FF6D01;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.cta-button {
+  background: linear-gradient(45deg, var(--sunset-orange), var(--gold-accent));
+  border: 3px solid var(--deep-crimson);
+  border-radius: 50px;
+  padding: 18px 40px;
+  font-family: 'The Last Shuriken', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 25px rgba(255, 109, 1, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 35px rgba(255, 109, 1, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.floating-embers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ember {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--fire-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--sunset-orange);
+  animation: float-up 8s infinite linear;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+.ember:nth-child(1) { left: 10%; animation-delay: 0s; }
+.ember:nth-child(2) { left: 25%; animation-delay: 2s; }
+.ember:nth-child(3) { left: 40%; animation-delay: 4s; }
+.ember:nth-child(4) { left: 65%; animation-delay: 1s; }
+.ember:nth-child(5) { left: 80%; animation-delay: 3s; }
+
+@keyframes logo-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px var(--sunset-orange));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px var(--primary-red)) drop-shadow(0 0 60px var(--gold-accent));
+  }
+}
+
+.social-links {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 10;
+}
+
+.social-link {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--sunset-orange), var(--gold-accent));
+  border: 3px solid var(--deep-crimson);
+  border-radius: 50%; /* Make it circular */
+  padding: 10px; /* Adjust padding for size */
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 25px rgba(255, 109, 1, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 35px rgba(255, 109, 1, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.social-link:hover::before {
+  left: 100%;
+}
+
+.social-link svg {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
+  fill: #1A1A1A; /* Icon color */
+}
+
+.powered-by {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 100;
+  color: white;
+  font-family: 'The Last Shuriken', sans-serif;
+}
+
+.powered-by p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.powered-by svg {
+  width: 100px; /* Adjust as needed */
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .cta-button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+  }
+  
+  .game-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .social-links {
+    left: 20px;
+    right: auto;
+    transform: translateX(0);
+    bottom: 80px; /* Move up to make space */
+  }
+
+  .social-link {
+    padding: 8px;
+  }
+
+  .social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .powered-by {
+    left: 20px;
+    right: auto;
+  }
+
+  .powered-by p {
+    display: none;
+  }
+
+  .powered-by svg {
+    width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 2rem;
+  }
+  
+  .hero-content {
+    padding: 0 20px;
+  }
+}
