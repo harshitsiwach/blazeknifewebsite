@@ -12,12 +12,12 @@
 }
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .hero-section {
@@ -38,11 +38,11 @@ body {
 }
 
 .sunset-sky {
-  background: linear-gradient(180deg, 
-    var(--primary-red) 0%, 
-    var(--sunset-orange) 30%, 
-    var(--deep-crimson) 70%, 
-    var(--night-black) 100%);
+  background: linear-gradient(180deg,
+      var(--primary-red) 0%,
+      var(--sunset-orange) 30%,
+      var(--deep-crimson) 70%,
+      var(--night-black) 100%);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -83,7 +83,7 @@ body {
   font-size: 4rem;
   font-weight: 900;
   letter-spacing: 4px;
-  text-shadow: 
+  text-shadow:
     0 0 10px var(--sunset-orange),
     0 0 20px var(--primary-red),
     0 0 30px var(--deep-crimson);
@@ -97,7 +97,7 @@ body {
   color: #FF6D01;
   margin-top: -10px;
   margin-bottom: 20px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .cta-button {
@@ -113,7 +113,7 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(255, 109, 1, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
@@ -122,7 +122,7 @@ body {
 
 .cta-button:hover {
   transform: translateY(-3px);
-  box-shadow: 
+  box-shadow:
     0 12px 35px rgba(255, 109, 1, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -134,7 +134,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transition: left 0.5s;
 }
 
@@ -165,22 +165,45 @@ body {
     transform: translateY(100vh) translateX(0);
     opacity: 1;
   }
+
   100% {
     transform: translateY(-50px) translateX(20px);
     opacity: 0;
   }
 }
 
-.ember:nth-child(1) { left: 10%; animation-delay: 0s; }
-.ember:nth-child(2) { left: 25%; animation-delay: 2s; }
-.ember:nth-child(3) { left: 40%; animation-delay: 4s; }
-.ember:nth-child(4) { left: 65%; animation-delay: 1s; }
-.ember:nth-child(5) { left: 80%; animation-delay: 3s; }
+.ember:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.ember:nth-child(2) {
+  left: 25%;
+  animation-delay: 2s;
+}
+
+.ember:nth-child(3) {
+  left: 40%;
+  animation-delay: 4s;
+}
+
+.ember:nth-child(4) {
+  left: 65%;
+  animation-delay: 1s;
+}
+
+.ember:nth-child(5) {
+  left: 80%;
+  animation-delay: 3s;
+}
 
 @keyframes logo-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 20px var(--sunset-orange));
   }
+
   50% {
     filter: drop-shadow(0 0 40px var(--primary-red)) drop-shadow(0 0 60px var(--gold-accent));
   }
@@ -197,17 +220,21 @@ body {
 }
 
 .social-link {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: linear-gradient(45deg, var(--sunset-orange), var(--gold-accent));
   border: 3px solid var(--deep-crimson);
-  border-radius: 50%; /* Make it circular */
-  padding: 10px; /* Adjust padding for size */
+  border-radius: 50%;
+  /* Make it circular */
+  width: 50px;
+  height: 50px;
   font-size: 1.3rem;
   font-weight: 700;
   color: #1A1A1A;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(255, 109, 1, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
@@ -216,7 +243,7 @@ body {
 
 .social-link:hover {
   transform: translateY(-3px);
-  box-shadow: 
+  box-shadow:
     0 12px 35px rgba(255, 109, 1, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -228,7 +255,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transition: left 0.5s;
 }
 
@@ -236,10 +263,14 @@ body {
   left: 100%;
 }
 
-.social-link svg {
-  width: 20px; /* Adjust icon size */
-  height: 20px;
-  fill: #1A1A1A; /* Icon color */
+.social-link svg,
+.social-link img {
+  width: 24px;
+  height: 24px;
+  fill: #1A1A1A;
+  /* Icon color */
+  display: block;
+  /* Removes weird inline spacing */
 }
 
 .powered-by {
@@ -260,7 +291,8 @@ body {
 }
 
 .powered-by svg {
-  width: 100px; /* Adjust as needed */
+  width: 100px;
+  /* Adjust as needed */
   height: auto;
 }
 
@@ -269,36 +301,52 @@ body {
     font-size: 2.5rem;
     letter-spacing: 2px;
   }
-  
+
   .cta-button {
     padding: 15px 30px;
     font-size: 1.1rem;
   }
-  
+
   .game-logo {
     width: 80px;
     height: 80px;
   }
 
   .social-links {
-    left: 20px;
+    /* Center social links on mobile */
+    left: 50%;
     right: auto;
-    transform: translateX(0);
-    bottom: 80px; /* Move up to make space */
+    transform: translateX(-50%);
+    bottom: 80px;
+    width: 100%;
+    justify-content: center;
   }
 
   .social-link {
-    padding: 8px;
+    /* Reduce size on mobile */
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    /* padding handled by flex centering in main rule */
   }
 
-  .social-link svg {
+  .social-link svg,
+  .social-link img {
+    /* Scale down icon on mobile */
     width: 18px;
     height: 18px;
   }
 
   .powered-by {
-    left: 20px;
+    /* Center powered by section */
+    left: 50%;
     right: auto;
+    transform: translateX(-50%);
+    bottom: 20px;
+    justify-content: center;
+    flex-direction: column;
+    /* Stack vertically */
+    text-align: center;
   }
 
   .powered-by p {
@@ -314,7 +362,7 @@ body {
   .game-title {
     font-size: 2rem;
   }
-  
+
   .hero-content {
     padding: 0 20px;
   }
