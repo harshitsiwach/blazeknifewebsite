@@ -16,7 +16,7 @@
   "dependencies": {
     "framer-motion": "^12.23.22",
     "lottie-react": "^2.4.1",
-    "next": "^15.5.4",
+    "next": "15.5.9",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-particles": "^2.12.2",
