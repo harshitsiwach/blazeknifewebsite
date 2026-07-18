@@ -1,14 +1,14 @@
 :root {
-  --primary-red: #D03333;
-  --sunset-orange: #FF6D01;
-  --fire-yellow: #FFB84D;
-  --deep-crimson: #6B0000;
-  --night-black: #1A1A1A;
-  --charcoal: #2D2D2D;
-  --smoke-gray: #4A4A4A;
-  --gold-accent: #FFD700;
-  --sunset-gradient: linear-gradient(180deg, var(--primary-red) 0%, var(--deep-crimson) 50%, var(--night-black) 100%);
-  --fire-glow: radial-gradient(circle, var(--fire-yellow) 0%, var(--sunset-orange) 50%, transparent 100%);
+  --primary-green: #00C805;
+  --neon-green: #33FF33;
+  --light-green: #A3FFA3;
+  --dark-green: #003300;
+  --night-black: #000000;
+  --charcoal: #131313;
+  --smoke-gray: #2C2C2C;
+  --white-accent: #FFFFFF;
+  --sunset-gradient: linear-gradient(180deg, var(--night-black) 0%, var(--charcoal) 50%, var(--night-black) 100%);
+  --fire-glow: radial-gradient(circle, var(--primary-green) 0%, var(--dark-green) 50%, transparent 100%);
 }
 
 body {
@@ -39,9 +39,9 @@ body {
 
 .sunset-sky {
   background: linear-gradient(180deg,
-      var(--primary-red) 0%,
-      var(--sunset-orange) 30%,
-      var(--deep-crimson) 70%,
+      var(--charcoal) 0%,
+      var(--night-black) 30%,
+      var(--dark-green) 70%,
       var(--night-black) 100%);
   position: absolute;
   width: 100%;
@@ -74,7 +74,7 @@ body {
   width: 120px;
   height: 120px;
   margin-bottom: 20px;
-  filter: drop-shadow(0 0 20px var(--sunset-orange));
+  filter: drop-shadow(0 0 10px var(--primary-green));
   animation: logo-pulse 3s ease-in-out infinite;
 }
 
@@ -84,9 +84,9 @@ body {
   font-weight: 900;
   letter-spacing: 4px;
   text-shadow:
-    0 0 10px var(--sunset-orange),
-    0 0 20px var(--primary-red),
-    0 0 30px var(--deep-crimson);
+    0 0 10px var(--neon-green),
+    0 0 20px var(--primary-green),
+    0 0 30px var(--dark-green);
   margin-bottom: 10px;
 }
 
@@ -94,15 +94,15 @@ body {
   font-family: 'The Last Shuriken', sans-serif;
   font-size: 1rem;
   letter-spacing: 1px;
-  color: #FF6D01;
+  color: var(--neon-green);
   margin-top: -10px;
   margin-bottom: 20px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .cta-button {
-  background: linear-gradient(45deg, var(--sunset-orange), var(--gold-accent));
-  border: 3px solid var(--deep-crimson);
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  border: 3px solid var(--dark-green);
   border-radius: 50px;
   padding: 18px 40px;
   font-family: 'The Last Shuriken', serif;
@@ -114,7 +114,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow:
-    0 8px 25px rgba(255, 109, 1, 0.4),
+    0 8px 25px rgba(0, 200, 5, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
@@ -123,7 +123,7 @@ body {
 .cta-button:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 12px 35px rgba(255, 109, 1, 0.6),
+    0 12px 35px rgba(0, 200, 5, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -152,11 +152,11 @@ body {
 
 .ember {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: var(--fire-yellow);
+  width: 8px;
+  height: 8px;
+  background: var(--neon-green);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--sunset-orange);
+  box-shadow: 0 0 8px var(--primary-green);
   animation: float-up 8s infinite linear;
 }
 
@@ -201,11 +201,11 @@ body {
 
   0%,
   100% {
-    filter: drop-shadow(0 0 20px var(--sunset-orange));
+    filter: drop-shadow(0 0 10px var(--primary-green));
   }
 
   50% {
-    filter: drop-shadow(0 0 40px var(--primary-red)) drop-shadow(0 0 60px var(--gold-accent));
+    filter: drop-shadow(0 0 20px var(--neon-green)) drop-shadow(0 0 30px var(--white-accent));
   }
 }
 
@@ -223,8 +223,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(45deg, var(--sunset-orange), var(--gold-accent));
-  border: 3px solid var(--deep-crimson);
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  border: 3px solid var(--dark-green);
   border-radius: 50%;
   /* Make it circular */
   width: 50px;
@@ -235,7 +235,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow:
-    0 8px 25px rgba(255, 109, 1, 0.4),
+    0 8px 25px rgba(0, 200, 5, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
@@ -244,7 +244,7 @@ body {
 .social-link:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 12px 35px rgba(255, 109, 1, 0.6),
+    0 12px 35px rgba(0, 200, 5, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -290,10 +290,10 @@ body {
   font-size: 0.9rem;
 }
 
-.powered-by svg {
-  width: 100px;
-  /* Adjust as needed */
-  height: auto;
+.powered-by .powered-by-logo {
+  width: auto;
+  height: 36px;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
@@ -353,8 +353,8 @@ body {
     display: none;
   }
 
-  .powered-by svg {
-    width: 80px;
+  .powered-by .powered-by-logo {
+    height: 28px;
   }
 }
 
