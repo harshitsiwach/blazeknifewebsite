@@ -1,0 +1,584 @@
+/* Presale — matches BLAZE KNIFE aesthetic, extends globals.css vars */
+
+/* top bar — wallet + X at top-right */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 16px 20px;
+  pointer-events: none;
+}
+
+.top-bar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-bar-left {
+  pointer-events: auto;
+}
+
+.top-chain-badge {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--light-green);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 200, 5, 0.2);
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.top-wallet-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1;
+  background: rgba(19, 19, 19, 0.75);
+  border: 1px solid rgba(51, 255, 51, 0.18);
+  border-radius: 12px;
+  padding: 7px 10px;
+  backdrop-filter: blur(6px);
+}
+
+.top-wallet-addr {
+  font-family: monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--white-accent);
+}
+
+.top-wallet-bal {
+  font-size: 0.68rem;
+  color: var(--light-green);
+  margin-top: 2px;
+}
+
+.top-connect {
+  display: flex;
+  align-items: center;
+}
+
+/* override RainbowKit button inside top bar to match blaze pill */
+.top-connect button {
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green)) !important;
+  border: 2px solid var(--dark-green) !important;
+  border-radius: 50px !important;
+  color: #111 !important;
+  font-family: 'The Last Shuriken', serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  padding: 8px 16px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  box-shadow: 0 6px 18px rgba(0, 200, 5, 0.35) !important;
+}
+
+.top-x-link {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  border: 2px solid var(--dark-green);
+  border-radius: 50%;
+  color: #111;
+  box-shadow: 0 6px 18px rgba(0, 200, 5, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.top-x-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 200, 5, 0.5);
+}
+
+.top-x-link svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: #111;
+}
+
+/* smaller PLAY variant */
+.cta-button--small {
+  padding: 12px 28px !important;
+  font-size: 1rem !important;
+  opacity: 0.95;
+}
+
+/* container below PLAY, centered, floating above embers */
+.presale-wrap {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(420px, 90vw);
+  max-width: 420px;
+}
+
+/* raised bar — thin neon track */
+.raised-card {
+  width: 100%;
+  background: rgba(19, 19, 19, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 200, 5, 0.25);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.raised-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.raised-label {
+  font-family: 'The Last Shuriken', serif;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--light-green);
+  text-transform: uppercase;
+}
+
+.raised-value {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--white-accent);
+  font-weight: 700;
+}
+
+.raised-pct {
+  font-size: 0.75rem;
+  color: var(--neon-green);
+  font-weight: 700;
+}
+
+.raised-card--single {
+  padding: 14px 16px;
+}
+
+.raised-single {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.raised-value--large {
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 200, 5, 0.6);
+}
+
+.presale-progress-track {
+  height: 8px;
+  background: var(--night-black);
+  border: 1px solid var(--dark-green);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.presale-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-green), var(--neon-green));
+  box-shadow: 0 0 10px var(--primary-green);
+  transition: width 0.7s ease;
+}
+
+.raised-sub {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: var(--smoke-gray);
+  color: #9a9a9a;
+}
+
+/* vault address — mono pill */
+.vault-pill {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 200, 5, 0.3);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.vault-pill code {
+  flex: 1;
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: var(--white-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vault-pill .vault-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.vault-btn {
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  border: 1px solid var(--dark-green);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #111;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.vault-btn:hover {
+  transform: translateY(-1px);
+}
+
+.vault-meta {
+  font-size: 0.68rem;
+  color: #b7b7b7;
+  text-align: center;
+}
+
+.vault-meta a {
+  color: var(--neon-green);
+  text-decoration: none;
+}
+
+.vault-meta a:hover {
+  text-decoration: underline;
+}
+
+/* wallet status bar */
+.wallet-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(19, 19, 19, 0.75);
+  border: 1px solid rgba(51, 255, 51, 0.15);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.wallet-info {
+  text-align: left;
+}
+
+.wallet-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--light-green);
+  opacity: 0.9;
+}
+
+.wallet-addr {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--white-accent);
+  font-weight: 700;
+}
+
+.wallet-bal {
+  font-size: 0.7rem;
+  color: #aaa;
+}
+
+/* RainbowKit connect button override to match BLAZE — we wrap it */
+.connect-blaze button {
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green)) !important;
+  border: 3px solid var(--dark-green) !important;
+  border-radius: 50px !important;
+  color: #111 !important;
+  font-family: 'The Last Shuriken', serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 8px 25px rgba(0, 200, 5, 0.4) !important;
+}
+
+/* amount input — pill like CTA but as input */
+.amount-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.amount-field-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.amount-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid var(--dark-green);
+  border-radius: 50px;
+  padding: 14px 52px 14px 18px;
+  font-family: monospace;
+  font-size: 1.05rem;
+  color: var(--white-accent);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.amount-input::placeholder {
+  color: #666;
+}
+
+.amount-input:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(0, 200, 5, 0.15), 0 0 20px rgba(0, 200, 5, 0.25);
+}
+
+.amount-suffix {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'The Last Shuriken', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  pointer-events: none;
+}
+
+.preset-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.preset-btn {
+  flex: 1;
+  background: rgba(19, 19, 19, 0.9);
+  border: 1px solid rgba(0, 200, 5, 0.35);
+  border-radius: 50px;
+  padding: 8px 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--light-green);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  background: var(--dark-green);
+  color: var(--white-accent);
+  border-color: var(--primary-green);
+}
+
+.preset-btn.active {
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  color: #111;
+  border-color: var(--dark-green);
+}
+
+.donate-btn {
+  width: 100%;
+  /* extends .cta-button shape but full width */
+  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
+  border: 3px solid var(--dark-green);
+  border-radius: 50px;
+  padding: 14px 20px;
+  font-family: 'The Last Shuriken', serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 200, 5, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.donate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 200, 5, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.donate-btn:disabled {
+  background: #2a2a2a;
+  border-color: #333;
+  color: #777;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.donate-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.donate-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(17, 17, 17, 0.25);
+  border-top-color: #111;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.donate-btn:disabled .spinner {
+  border-top-color: #777;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.inline-error {
+  width: 100%;
+  background: rgba(60, 0, 0, 0.6);
+  border: 1px solid rgba(255, 60, 60, 0.4);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #ff8a8a;
+  text-align: center;
+}
+
+.inline-hint {
+  font-size: 0.72rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.success-card {
+  width: 100%;
+  background: rgba(0, 51, 0, 0.5);
+  border: 1px solid rgba(0, 200, 5, 0.4);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(6px);
+}
+
+.success-title {
+  font-family: 'The Last Shuriken', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  color: var(--neon-green);
+}
+
+.success-hash {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--light-green);
+  word-break: break-all;
+  text-decoration: none;
+}
+
+.success-hash:hover {
+  text-decoration: underline;
+}
+
+.success-meta {
+  font-size: 0.7rem;
+  color: #ccc;
+}
+
+/* ensure hero can scroll if presale makes it taller */
+.hero-section--with-presale {
+  min-height: 100vh;
+  height: auto;
+  padding: 60px 0 90px;
+}
+
+.hero-section--with-presale .hero-content {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .presale-wrap {
+    width: 92vw;
+  }
+  .cta-button--small {
+    padding: 10px 22px !important;
+    font-size: 0.95rem !important;
+  }
+  .hero-section--with-presale {
+    padding: 70px 0 110px;
+  }
+  .top-bar {
+    padding: 12px 12px;
+  }
+  .top-bar-right {
+    gap: 8px;
+  }
+  .top-wallet-bal {
+    display: none;
+  }
+  .top-wallet-info {
+    padding: 6px 9px;
+  }
+  .top-connect button {
+    font-size: 0.74rem !important;
+    padding: 7px 12px !important;
+  }
+  .top-x-link {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar-inner {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .raised-value--large {
+    font-size: 1rem;
+  }
+}

@@ -1,5 +1,7 @@
 import '../styles/fonts.css';
 import '../styles/globals.css';
+import '../styles/presale.css';
+import { Providers } from './providers.jsx';
 
 export const metadata = {
   title: 'BLAZE KNIFE',
@@ -9,7 +11,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }
