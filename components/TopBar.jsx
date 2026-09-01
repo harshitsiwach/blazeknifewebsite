@@ -55,6 +55,15 @@ export function TopBar() {
     <>
       <header className="top-bar" aria-label="Main Navigation">
         <div className="top-bar-inner">
+          {/* LEFT CORNER: ROBINHOOD CHAIN text badge (Desktop) */}
+          <div className="top-bar-left top-control-btn--desktop-only">
+            <div className="top-brand-pill interactive-hover">
+              <span className="live-pulse-dot" />
+              <span className="top-brand-text">ROBINHOOD CHAIN</span>
+            </div>
+          </div>
+
+          {/* RIGHT: Controls */}
           <div className="top-bar-right">
             {isClient ? (
               <ConnectButton.Custom>
@@ -110,8 +119,8 @@ export function TopBar() {
                         },
                       })}
                     >
-                      {/* 1. Chain Selector (Desktop Only - on Mobile it's in the hamburger) */}
-                      {connected && chain && !chain.unsupported ? (
+                      {/* Desktop Chain Switcher (when connected) */}
+                      {connected && chain && !chain.unsupported && (
                         <button
                           onClick={handleChainClick}
                           className="top-control-btn top-control-btn--chain top-control-btn--desktop-only interactive-hover"
@@ -140,14 +149,9 @@ export function TopBar() {
                             <polyline points="6 9 12 15 18 9" />
                           </svg>
                         </button>
-                      ) : (
-                        <div className="top-brand-pill top-control-btn--desktop-only interactive-hover">
-                          <span className="live-pulse-dot" />
-                          <span className="top-brand-text">ROBINHOOD CHAIN</span>
-                        </div>
                       )}
 
-                      {/* 2. Wallet Button (Desktop & Mobile) */}
+                      {/* Wallet Button */}
                       {!connected ? (
                         <button
                           onClick={handleConnectClick}
@@ -194,7 +198,7 @@ export function TopBar() {
                         </button>
                       )}
 
-                      {/* 3. Twitter / X Button (Visible on Desktop & Mobile) */}
+                      {/* Twitter / X Button (Desktop & Mobile) */}
                       <a
                         href="https://x.com/blazeknifehood"
                         target="_blank"
@@ -208,7 +212,7 @@ export function TopBar() {
                         </svg>
                       </a>
 
-                      {/* 4. Katana Hamburger Button (Mobile Only) */}
+                      {/* Katana Hamburger Button (Mobile Only) */}
                       <button
                         onClick={() => setMenuOpen((prev) => !prev)}
                         className={`katana-hamburger-btn katana-hamburger-btn--mobile-only interactive-hover ${menuOpen ? 'katana-hamburger-btn--active' : ''}`}
