@@ -332,6 +332,350 @@ html, body {
   box-shadow: var(--glow-green-sm);
 }
 
+@media (max-width: 680px) {
+  .top-control-btn--desktop-only {
+    display: none !important;
+  }
+}
+
+/* ================================================= */
+/* CREATIVE KATANA HAMBURGER BUTTON                  */
+/* ================================================= */
+.katana-hamburger-btn {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  background: rgba(10, 15, 11, 0.85);
+  border: 1px solid var(--border-green);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px 9px;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.katana-hamburger-btn:hover {
+  border-color: var(--neon-green);
+  box-shadow: var(--glow-green-sm);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.katana-slash {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+.katana-slash-2 {
+  width: 75%;
+  align-self: flex-start;
+  background: var(--neon-green);
+  box-shadow: 0 0 6px var(--neon-green);
+}
+
+.katana-hamburger-btn:hover .katana-slash-2 {
+  width: 100%;
+}
+
+.katana-hamburger-btn--active {
+  border-color: var(--neon-green);
+  background: rgba(14, 25, 16, 0.95);
+  box-shadow: var(--glow-green-sm);
+}
+
+.katana-hamburger-btn--active .katana-slash-1 {
+  transform: translateY(7px) rotate(45deg);
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
+.katana-hamburger-btn--active .katana-slash-2 {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.katana-hamburger-btn--active .katana-slash-3 {
+  transform: translateY(-7px) rotate(-45deg);
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
+/* ================================================= */
+/* CREATIVE CYBERPUNK BLADE DRAWER MENU              */
+/* ================================================= */
+.cyber-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 4, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 99990;
+}
+
+.cyber-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 360px;
+  background: rgba(8, 13, 9, 0.94);
+  border-left: 1px solid rgba(57, 255, 20, 0.25);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.9), inset 1px 0 0 rgba(57, 255, 20, 0.15);
+  backdrop-filter: blur(25px);
+  z-index: 99995;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.cyber-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.15);
+  margin-bottom: 20px;
+}
+
+.cyber-menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cyber-menu-logo-spark {
+  width: 10px;
+  height: 10px;
+  background: var(--neon-green);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+.cyber-menu-brand-title {
+  font-size: 1.25rem;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+
+.cyber-menu-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  color: var(--neon-green);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cyber-menu-close-btn:hover {
+  background: var(--neon-green);
+  color: #030504;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 0 12px var(--neon-green);
+}
+
+.cyber-menu-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+}
+
+/* Status Card */
+.cyber-status-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(14, 22, 16, 0.85);
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.cyber-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cyber-status-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
+.cyber-status-chain {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.cyber-status-badge {
+  font-size: 0.68rem;
+  color: var(--muted-gray);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Nav Links */
+.cyber-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cyber-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(12, 18, 14, 0.7);
+  border: 1px solid rgba(57, 255, 20, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.cyber-nav-item:hover {
+  background: rgba(20, 32, 22, 0.9);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  transform: translateX(4px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), inset 3px 0 0 var(--neon-green);
+}
+
+.cyber-nav-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.cyber-nav-label {
+  flex: 1;
+}
+
+.cyber-nav-arrow {
+  color: var(--muted-gray);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.cyber-nav-item:hover .cyber-nav-arrow {
+  color: var(--neon-green);
+  transform: translateX(3px);
+}
+
+/* Vault Widget */
+.cyber-vault-widget {
+  background: rgba(10, 16, 12, 0.85);
+  border: 1px solid rgba(57, 255, 20, 0.18);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cyber-vault-label {
+  font-size: 0.68rem;
+  color: var(--muted-gray);
+  letter-spacing: 1px;
+}
+
+.cyber-vault-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: rgba(3, 5, 4, 0.7);
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cyber-vault-address {
+  font-size: 0.75rem;
+  color: var(--white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cyber-vault-copy-btn {
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.cyber-vault-copy-btn:hover {
+  background: var(--neon-green);
+  color: #030504;
+}
+
+.cyber-vault-copy-btn--copied {
+  background: #39FF14 !important;
+  color: #030504 !important;
+  border-color: #39FF14 !important;
+}
+
+/* Drawer Footer */
+.cyber-menu-footer {
+  padding-top: 16px;
+  border-top: 1px solid rgba(57, 255, 20, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.cyber-footer-tag {
+  font-size: 0.65rem;
+  color: var(--muted-gray);
+  letter-spacing: 1px;
+}
+
+.cyber-footer-rh-logo {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* ================================================= */
 /* CENTERED HERO SECTION                             */
 /* ================================================= */
