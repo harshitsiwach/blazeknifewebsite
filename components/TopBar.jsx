@@ -54,8 +54,7 @@ export function TopBar() {
   return (
     <>
       <header className="top-bar" aria-label="Main Navigation">
-        <div className="top-bar-inner top-bar-inner--single">
-          {/* Main Controls: Only Connect Wallet / Account (+ Hamburger on Mobile) */}
+        <div className="top-bar-inner">
           <div className="top-bar-right">
             {isClient ? (
               <ConnectButton.Custom>
@@ -111,7 +110,44 @@ export function TopBar() {
                         },
                       })}
                     >
-                      {/* Main Menu Only Button: Connect Wallet or Account */}
+                      {/* 1. Chain Selector (Desktop Only) */}
+                      {connected && chain && !chain.unsupported ? (
+                        <button
+                          onClick={handleChainClick}
+                          className="top-control-btn top-control-btn--chain top-control-btn--desktop-only interactive-hover"
+                          type="button"
+                          title="Switch Chain"
+                        >
+                          {chain.hasIcon && chain.iconUrl && (
+                            <img
+                              alt={chain.name ?? 'Chain icon'}
+                              src={chain.iconUrl}
+                              className="chain-icon-img"
+                            />
+                          )}
+                          <span className="control-text">{chain.name ?? 'Chain'}</span>
+                          <svg
+                            className="chevron-icon"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </button>
+                      ) : (
+                        <div className="top-brand-pill top-control-btn--desktop-only interactive-hover">
+                          <span className="live-pulse-dot" />
+                          <span className="top-brand-text">ROBINHOOD CHAIN</span>
+                        </div>
+                      )}
+
+                      {/* 2. Wallet Button (Desktop & Mobile) */}
                       {!connected ? (
                         <button
                           onClick={handleConnectClick}
@@ -158,7 +194,21 @@ export function TopBar() {
                         </button>
                       )}
 
-                      {/* Hamburger Button (Mobile Only) */}
+                      {/* 3. Twitter / X Button (Desktop Only) */}
+                      <a
+                        href="https://x.com/blazeknifewebsite"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="top-control-btn top-control-btn--x top-control-btn--desktop-only interactive-hover"
+                        aria-label="Blaze Knife on X"
+                        title="X / Twitter"
+                      >
+                        <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+                        </svg>
+                      </a>
+
+                      {/* 4. Katana Hamburger Button (Mobile Only) */}
                       <button
                         onClick={() => setMenuOpen((prev) => !prev)}
                         className={`katana-hamburger-btn katana-hamburger-btn--mobile-only interactive-hover ${menuOpen ? 'katana-hamburger-btn--active' : ''}`}

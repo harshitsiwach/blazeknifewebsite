@@ -332,6 +332,12 @@ html, body {
   box-shadow: var(--glow-green-sm);
 }
 
+@media (max-width: 768px) {
+  .top-control-btn--desktop-only {
+    display: none !important;
+  }
+}
+
 /* ================================================= */
 /* CREATIVE KATANA HAMBURGER BUTTON (Mobile Only)    */
 /* ================================================= */
