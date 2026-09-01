@@ -110,7 +110,7 @@ export function TopBar() {
                         },
                       })}
                     >
-                      {/* 1. Chain Selector (Desktop Only) */}
+                      {/* 1. Chain Selector (Desktop Only - on Mobile it's in the hamburger) */}
                       {connected && chain && !chain.unsupported ? (
                         <button
                           onClick={handleChainClick}
@@ -194,12 +194,12 @@ export function TopBar() {
                         </button>
                       )}
 
-                      {/* 3. Twitter / X Button (Desktop Only) */}
+                      {/* 3. Twitter / X Button (Visible on Desktop & Mobile) */}
                       <a
                         href="https://x.com/blazeknifewebsite"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="top-control-btn top-control-btn--x top-control-btn--desktop-only interactive-hover"
+                        className="top-control-btn top-control-btn--x interactive-hover"
                         aria-label="Blaze Knife on X"
                         title="X / Twitter"
                       >
@@ -293,7 +293,24 @@ export function TopBar() {
                   </span>
                 </button>
 
-                {/* 2. Presale Vault Address Widget */}
+                {/* 2. Twitter / X Community Button in Drawer */}
+                <a
+                  href="https://x.com/blazeknifewebsite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cyber-drawer-twitter-btn interactive-hover"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <div className="cyber-drawer-twitter-left">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+                    </svg>
+                    <span className="font-mono">TWITTER / X</span>
+                  </div>
+                  <span className="cyber-nav-arrow">↗</span>
+                </a>
+
+                {/* 3. Presale Vault Address Widget */}
                 <div className="cyber-vault-widget">
                   <div className="cyber-vault-label font-mono">PRESALE VAULT</div>
                   <div className="cyber-vault-box">
