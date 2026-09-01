@@ -1,584 +1,430 @@
-/* Presale — matches BLAZE KNIFE aesthetic, extends globals.css vars */
+/* ================================================= */
+/* FUTURISTIC BLOCKCHAIN DONATION TERMINAL           */
+/* ================================================= */
 
-/* top bar — wallet + X at top-right */
-.top-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  padding: 16px 20px;
-  pointer-events: none;
-}
-
-.top-bar-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.top-bar-left {
-  pointer-events: auto;
-}
-
-.top-chain-badge {
-  font-family: monospace;
-  font-size: 0.7rem;
-  color: var(--light-green);
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(0, 200, 5, 0.2);
-  border-radius: 999px;
-  padding: 5px 10px;
-}
-
-.top-bar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  pointer-events: auto;
-}
-
-.top-wallet-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  line-height: 1;
-  background: rgba(19, 19, 19, 0.75);
-  border: 1px solid rgba(51, 255, 51, 0.18);
-  border-radius: 12px;
-  padding: 7px 10px;
-  backdrop-filter: blur(6px);
-}
-
-.top-wallet-addr {
-  font-family: monospace;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--white-accent);
-}
-
-.top-wallet-bal {
-  font-size: 0.68rem;
-  color: var(--light-green);
-  margin-top: 2px;
-}
-
-.top-connect {
-  display: flex;
-  align-items: center;
-}
-
-/* override RainbowKit button inside top bar to match blaze pill */
-.top-connect button {
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green)) !important;
-  border: 2px solid var(--dark-green) !important;
-  border-radius: 50px !important;
-  color: #111 !important;
-  font-family: 'The Last Shuriken', serif !important;
-  font-size: 0.82rem !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.5px !important;
-  padding: 8px 16px !important;
-  height: auto !important;
-  min-height: 0 !important;
-  box-shadow: 0 6px 18px rgba(0, 200, 5, 0.35) !important;
-}
-
-.top-x-link {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
-  border: 2px solid var(--dark-green);
-  border-radius: 50%;
-  color: #111;
-  box-shadow: 0 6px 18px rgba(0, 200, 5, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-decoration: none;
-}
-
-.top-x-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 200, 5, 0.5);
-}
-
-.top-x-link svg {
-  width: 18px;
-  height: 18px;
-  display: block;
-  fill: #111;
-}
-
-/* smaller PLAY variant */
-.cta-button--small {
-  padding: 12px 28px !important;
-  font-size: 1rem !important;
-  opacity: 0.95;
-}
-
-/* container below PLAY, centered, floating above embers */
-.presale-wrap {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  width: min(420px, 90vw);
-  max-width: 420px;
-}
-
-/* raised bar — thin neon track */
-.raised-card {
+.terminal-panel-wrap {
   width: 100%;
-  background: rgba(19, 19, 19, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 200, 5, 0.25);
-  border-radius: 14px;
-  padding: 12px 14px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: rgba(10, 15, 11, 0.85);
+  border: 1px solid var(--border-green);
+  border-radius: 18px;
+  padding: 22px 24px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(57, 255, 20, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
 }
 
-.raised-top {
+/* Top Row: RAISED Card */
+.terminal-raised-card {
+  width: 100%;
+  background: rgba(14, 20, 15, 0.9);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 12px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+}
+
+.terminal-raised-inner {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
+  align-items: center;
 }
 
-.raised-label {
-  font-family: 'The Last Shuriken', serif;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  color: var(--light-green);
+.terminal-raised-label {
+  font-family: 'The Last Shuriken', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
+  color: var(--muted-gray);
   text-transform: uppercase;
 }
 
-.raised-value {
-  font-family: monospace;
-  font-size: 0.85rem;
-  color: var(--white-accent);
-  font-weight: 700;
-}
-
-.raised-pct {
-  font-size: 0.75rem;
+.terminal-raised-value {
+  font-size: 1.18rem;
+  font-weight: 800;
   color: var(--neon-green);
-  font-weight: 700;
-}
-
-.raised-card--single {
-  padding: 14px 16px;
-}
-
-.raised-single {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.raised-value--large {
-  font-size: 1.1rem;
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
   letter-spacing: 0.5px;
-  color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 200, 5, 0.6);
 }
 
-.presale-progress-track {
-  height: 8px;
-  background: var(--night-black);
-  border: 1px solid var(--dark-green);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.presale-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-green), var(--neon-green));
-  box-shadow: 0 0 10px var(--primary-green);
-  transition: width 0.7s ease;
-}
-
-.raised-sub {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 6px;
-  font-size: 0.7rem;
-  color: var(--smoke-gray);
-  color: #9a9a9a;
-}
-
-/* vault address — mono pill */
-.vault-pill {
+/* Wallet Address Field & Actions */
+.terminal-vault-field {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(0, 200, 5, 0.3);
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(3, 5, 4, 0.7);
+  border: 1px solid rgba(57, 255, 20, 0.2);
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 8px 12px;
+  box-sizing: border-box;
 }
 
-.vault-pill code {
+.vault-addr-display {
   flex: 1;
-  font-family: monospace;
-  font-size: 0.78rem;
-  color: var(--white-accent);
-  white-space: nowrap;
   overflow: hidden;
+}
+
+.vault-addr-text {
+  font-size: 0.8rem;
+  color: var(--white);
+  white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
 }
 
-.vault-pill .vault-actions {
+.vault-action-buttons {
   display: flex;
+  align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
-.vault-btn {
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
-  border: 1px solid var(--dark-green);
-  border-radius: 8px;
-  padding: 6px 10px;
+.vault-action-btn {
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.4);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'Space Mono', monospace;
   font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  color: #111;
+  font-weight: 700;
+  color: var(--neon-green);
   cursor: pointer;
-  transition: transform 0.2s;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
 }
 
-.vault-btn:hover {
+.vault-action-btn:hover {
+  background: var(--neon-green);
+  color: #030504;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.6);
   transform: translateY(-1px);
 }
 
-.vault-meta {
-  font-size: 0.68rem;
-  color: #b7b7b7;
-  text-align: center;
+.vault-action-btn:active {
+  transform: scale(0.95);
 }
 
-.vault-meta a {
+.vault-action-btn--copied {
+  background: #39FF14 !important;
+  color: #030504 !important;
+  border-color: #39FF14 !important;
+  box-shadow: 0 0 14px #39FF14 !important;
+}
+
+/* Terminal Meta Note */
+.terminal-meta-note {
+  font-size: 0.72rem;
+  color: var(--muted-gray);
+  text-align: center;
+  margin-top: -4px;
+}
+
+.neon-link {
   color: var(--neon-green);
   text-decoration: none;
-}
-
-.vault-meta a:hover {
-  text-decoration: underline;
-}
-
-/* wallet status bar */
-.wallet-bar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: rgba(19, 19, 19, 0.75);
-  border: 1px solid rgba(51, 255, 51, 0.15);
-  border-radius: 12px;
-  padding: 10px 12px;
-}
-
-.wallet-info {
-  text-align: left;
-}
-
-.wallet-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: var(--light-green);
-  opacity: 0.9;
-}
-
-.wallet-addr {
-  font-family: monospace;
-  font-size: 0.8rem;
-  color: var(--white-accent);
   font-weight: 700;
+  transition: all 0.2s ease;
 }
 
-.wallet-bal {
-  font-size: 0.7rem;
-  color: #aaa;
+.neon-link:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 8px var(--neon-green);
 }
 
-/* RainbowKit connect button override to match BLAZE — we wrap it */
-.connect-blaze button {
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green)) !important;
-  border: 3px solid var(--dark-green) !important;
-  border-radius: 50px !important;
-  color: #111 !important;
-  font-family: 'The Last Shuriken', serif !important;
-  font-weight: 700 !important;
-  letter-spacing: 1px !important;
-  box-shadow: 0 8px 25px rgba(0, 200, 5, 0.4) !important;
+/* Network Switcher Button */
+.switch-network-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #D4FF00 0%, #18D62B 100%);
+  border: 2px solid #003300;
+  border-radius: 50px;
+  padding: 10px 16px;
+  font-family: 'The Last Shuriken', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #030504;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212, 255, 0, 0.4);
+  transition: all 0.25s ease;
 }
 
-/* amount input — pill like CTA but as input */
-.amount-stack {
+.switch-network-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(212, 255, 0, 0.7);
+}
+
+/* Donation Amount Stack */
+.terminal-amount-stack {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.amount-field-wrap {
+.terminal-input-container {
   position: relative;
   width: 100%;
 }
 
-.amount-input {
+.terminal-amount-input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  border: 2px solid var(--dark-green);
+  background: rgba(3, 5, 4, 0.8);
+  border: 1.5px solid var(--border-green);
   border-radius: 50px;
-  padding: 14px 52px 14px 18px;
-  font-family: monospace;
-  font-size: 1.05rem;
-  color: var(--white-accent);
+  padding: 12px 60px 12px 20px;
+  font-size: 1.1rem;
+  color: var(--white);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-.amount-input::placeholder {
-  color: #666;
+.terminal-amount-input::placeholder {
+  color: #4a544c;
 }
 
-.amount-input:focus {
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(0, 200, 5, 0.15), 0 0 20px rgba(0, 200, 5, 0.25);
+.terminal-amount-input:focus {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.2), 0 0 20px rgba(57, 255, 20, 0.35);
 }
 
-.amount-suffix {
+.terminal-currency-suffix {
   position: absolute;
-  right: 16px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  font-family: 'The Last Shuriken', serif;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-family: 'The Last Shuriken', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
   color: var(--neon-green);
   pointer-events: none;
 }
 
-.preset-row {
+/* Quick Amount Buttons */
+.quick-amount-row {
   display: flex;
   gap: 8px;
   width: 100%;
 }
 
-.preset-btn {
+.quick-amount-btn {
   flex: 1;
-  background: rgba(19, 19, 19, 0.9);
-  border: 1px solid rgba(0, 200, 5, 0.35);
+  background: rgba(14, 20, 15, 0.85);
+  border: 1px solid var(--border-green);
   border-radius: 50px;
   padding: 8px 0;
   font-size: 0.78rem;
   font-weight: 700;
-  font-family: monospace;
-  color: var(--light-green);
+  color: var(--muted-gray);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.preset-btn:hover {
-  background: var(--dark-green);
-  color: var(--white-accent);
-  border-color: var(--primary-green);
+.quick-amount-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--neon-green);
+  color: var(--white);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+  background: var(--surface-card-hover);
 }
 
-.preset-btn.active {
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
-  color: #111;
-  border-color: var(--dark-green);
+.quick-amount-btn--active {
+  background: rgba(57, 255, 20, 0.15) !important;
+  border-color: var(--neon-green) !important;
+  color: var(--neon-green) !important;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.4) !important;
+  transform: scale(1.03);
 }
 
-.donate-btn {
+/* Wide DONATE Button */
+.terminal-donate-btn {
   width: 100%;
-  /* extends .cta-button shape but full width */
-  background: linear-gradient(45deg, var(--primary-green), var(--neon-green));
-  border: 3px solid var(--dark-green);
+  background: #141C15;
+  border: 2px solid #223024;
   border-radius: 50px;
-  padding: 14px 20px;
-  font-family: 'The Last Shuriken', serif;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #111;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(0, 200, 5, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.25s ease;
+  padding: 14px 24px;
+  font-family: 'The Last Shuriken', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #4A564C;
+  cursor: not-allowed;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  position: relative;
-  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.donate-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(0, 200, 5, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+/* Active Ready State */
+.terminal-donate-btn--ready {
+  background: var(--button-green-gradient) !important;
+  border-color: #00FF55 !important;
+  color: #030504 !important;
+  cursor: pointer !important;
+  box-shadow: 0 6px 25px rgba(57, 255, 20, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
 }
 
-.donate-btn:disabled {
-  background: #2a2a2a;
-  border-color: #333;
-  color: #777;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+.terminal-donate-btn--ready:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 35px rgba(57, 255, 20, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  filter: brightness(1.06);
 }
 
-.donate-btn::before {
-  content: '';
+.terminal-donate-btn--ready:active {
+  transform: scale(0.96);
+}
+
+/* Loading Laser Scan Line */
+.terminal-donate-btn--loading {
+  background: #0E1610 !important;
+  border-color: var(--neon-green) !important;
+  color: var(--neon-green) !important;
+  cursor: wait !important;
+}
+
+.donate-laser-scan {
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent 0%, rgba(57, 255, 20, 0.4) 50%, transparent 100%);
+  animation: laser-scan-anim 1.4s infinite linear;
 }
 
-.donate-btn:hover:not(:disabled)::before {
-  left: 100%;
+@keyframes laser-scan-anim {
+  from { left: -100%; }
+  to { left: 100%; }
 }
 
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(17, 17, 17, 0.25);
-  border-top-color: #111;
+.loading-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(57, 255, 20, 0.3);
+  border-top-color: var(--neon-green);
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spinner-rot 0.8s infinite linear;
+  margin-right: 6px;
 }
 
-.donate-btn:disabled .spinner {
-  border-top-color: #777;
-}
-
-@keyframes spin {
+@keyframes spinner-rot {
   to { transform: rotate(360deg); }
 }
 
-.inline-error {
+/* Inline Errors & Hints */
+.terminal-inline-error {
   width: 100%;
-  background: rgba(60, 0, 0, 0.6);
+  background: rgba(60, 5, 5, 0.75);
   border: 1px solid rgba(255, 60, 60, 0.4);
   border-radius: 10px;
   padding: 8px 12px;
-  font-size: 0.78rem;
-  color: #ff8a8a;
+  font-size: 0.75rem;
+  color: #ff9494;
   text-align: center;
+  box-sizing: border-box;
 }
 
-.inline-hint {
+.error-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+  40%, 60% { transform: translate3d(3px, 0, 0); }
+}
+
+.error-dismiss-btn {
+  background: none;
+  border: none;
+  color: #ff9494;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.74rem;
+  margin-left: 6px;
+}
+
+.terminal-inline-hint {
   font-size: 0.72rem;
-  color: #aaa;
+  color: var(--muted-gray);
   text-align: center;
 }
 
-.success-card {
+/* Success Card */
+.terminal-success-card {
   width: 100%;
-  background: rgba(0, 51, 0, 0.5);
-  border: 1px solid rgba(0, 200, 5, 0.4);
-  border-radius: 12px;
-  padding: 12px;
+  background: rgba(3, 43, 12, 0.6);
+  border: 1.5px solid var(--neon-green);
+  border-radius: 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  backdrop-filter: blur(6px);
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.35);
+  box-sizing: border-box;
+}
+
+.success-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.success-check-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  color: #030504;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.85rem;
+  box-shadow: 0 0 10px var(--neon-green);
 }
 
 .success-title {
-  font-family: 'The Last Shuriken', serif;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  font-size: 0.9rem;
   color: var(--neon-green);
+  letter-spacing: 1px;
 }
 
-.success-hash {
-  font-family: monospace;
-  font-size: 0.7rem;
-  color: var(--light-green);
-  word-break: break-all;
+.success-tx-link {
+  font-size: 0.72rem;
+  color: #A3FFA3;
   text-decoration: none;
+  word-break: break-all;
 }
 
-.success-hash:hover {
+.success-tx-link:hover {
   text-decoration: underline;
 }
 
-.success-meta {
+.success-meta-info {
   font-size: 0.7rem;
-  color: #ccc;
+  color: var(--muted-gray);
 }
 
-/* ensure hero can scroll if presale makes it taller */
-.hero-section--with-presale {
-  min-height: 100vh;
-  height: auto;
-  padding: 60px 0 90px;
-}
-
-.hero-section--with-presale .hero-content {
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: none;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .presale-wrap {
-    width: 92vw;
-  }
-  .cta-button--small {
-    padding: 10px 22px !important;
-    font-size: 0.95rem !important;
-  }
-  .hero-section--with-presale {
-    padding: 70px 0 110px;
-  }
-  .top-bar {
-    padding: 12px 12px;
-  }
-  .top-bar-right {
-    gap: 8px;
-  }
-  .top-wallet-bal {
-    display: none;
-  }
-  .top-wallet-info {
-    padding: 6px 9px;
-  }
-  .top-connect button {
-    font-size: 0.74rem !important;
-    padding: 7px 12px !important;
-  }
-  .top-x-link {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-@media (max-width: 480px) {
-  .top-bar-inner {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .raised-value--large {
-    font-size: 1rem;
-  }
+.donate-again-btn {
+  background: none;
+  border: none;
+  color: var(--neon-green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 4px;
 }

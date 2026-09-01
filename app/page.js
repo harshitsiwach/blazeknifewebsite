@@ -1,72 +1,103 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-
-const Ember = ({ left, animationDuration, animationDelay }) => {
-  const style = {
-    left: left,
-    animationDuration: animationDuration,
-    animationDelay: animationDelay,
-  };
-  return <div className="ember" style={style}></div>;
-};
-
-const FloatingEmbers = () => {
-  const [embers, setEmbers] = useState([]);
-
-  useEffect(() => {
-    const createEmber = () => {
-      const newEmber = {
-        id: Math.random(),
-        left: Math.random() * 100 + '%',
-        animationDuration: (Math.random() * 4 + 6) + 's',
-        animationDelay: Math.random() * 2 + 's',
-      };
-      setEmbers(prevEmbers => [...prevEmbers, newEmber]);
-      setTimeout(() => {
-        setEmbers(prevEmbers => prevEmbers.filter(e => e.id !== newEmber.id));
-      }, 10000);
-    };
-
-    const interval = setInterval(createEmber, 800);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="floating-embers">
-      {embers.map(ember => (
-        <Ember key={ember.id} {...ember} />
-      ))}
-    </div>
-  );
-};
-
-
-import { PresaleCard } from '../components/PresaleCard.jsx';
+import { motion } from 'framer-motion';
+import { CustomCursor } from '../components/CustomCursor.jsx';
+import { BackgroundCanvas } from '../components/BackgroundCanvas.jsx';
+import { IntroSequence } from '../components/IntroSequence.jsx';
 import { TopBar } from '../components/TopBar.jsx';
+import { PresaleCard } from '../components/PresaleCard.jsx';
+import { StatsSection } from '../components/StatsSection.jsx';
 
 export default function HomePage() {
+  const [raisedEth, setRaisedEth] = useState('0.0000 ETH');
+  const [introReady, setIntroReady] = useState(false);
+
   return (
     <>
-      <section className="hero-section hero-section--with-presale">
+      {/* Custom Desktop Waving Feather Cursor */}
+      <CustomCursor />
+
+      {/* Cinematic Intro Sequence */}
+      <IntroSequence onComplete={() => setIntroReady(true)} />
+
+      {/* Interactive 60FPS Ambient Particle & Radial Lighting Canvas */}
+      <BackgroundCanvas />
+
+      {/* Main Centered Landing Page */}
+      <div className="landing-viewport">
+        {/* Top Navigation */}
         <TopBar />
-        <div className="background-layers">
-          <div className="sunset-sky"></div>
-          <FloatingEmbers />
-        </div>
-        <div className="hero-content">
-          <Image src="/image.png" alt="BLAZE KNIFE Logo" width={120} height={120} className="game-logo" />
-          <h1 className="game-title">BLAZE KNIFE</h1>
-          <button className="cta-button cta-button--small">PLAY</button>
-          <PresaleCard />
-        </div>
-      </section>
-      <div className="powered-by">
-        <p>Powered By</p>
-        <Image src="/RH_lockup_neon.png" alt="Powered By" width={200} height={60} className="powered-by-logo" />
+
+        {/* Center Hero Content Container */}
+        <main className="hero-center-container">
+          <div className="hero-center-content" aria-label="Hero Presale Panel">
+            {/* Blaze Knife Logo with subtle float */}
+            <motion.div
+              className="logo-badge-wrap"
+              animate={{ y: [-2, 3, -2] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Image
+                src="/image.png"
+                alt="BLAZE KNIFE Crest"
+                width={90}
+                height={90}
+                className="blaze-crest-logo interactive-hover"
+                priority
+              />
+            </motion.div>
+
+            {/* Main Title: BLAZE KNIFE */}
+            <h1 className="hero-main-title font-display">
+              <span className="title-blaze">BLAZE</span>{' '}
+              <span className="title-knife">KNIFE</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="hero-subtitle">
+              The ultimate memecoin on{' '}
+              <span className="neon-text-highlight">Robinhood Chain</span>.
+            </p>
+
+            {/* Large CTA: PLAY Button */}
+            <div className="play-button-wrap">
+              <button
+                className="hero-play-cta interactive-hover"
+                type="button"
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
+                <span className="play-text">PLAY</span>
+                <span className="play-arrow">▶</span>
+              </button>
+            </div>
+
+            {/* Donation Terminal Panel */}
+            <PresaleCard onRaisedChange={setRaisedEth} />
+          </div>
+        </main>
+
+        {/* Bottom Statistics Cards */}
+        <StatsSection raisedAmount={raisedEth} />
+
+        {/* Footer: Powered By Robinhood */}
+        <footer className="footer-bar">
+          <div className="powered-by-tag">
+            <span className="powered-by-label">POWERED BY</span>
+            <Image
+              src="/RH_lockup_neon.png"
+              alt="Robinhood"
+              width={140}
+              height={36}
+              className="rh-footer-logo"
+            />
+          </div>
+        </footer>
       </div>
     </>
   );
 }
+

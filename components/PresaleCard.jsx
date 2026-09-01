@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAccount, useBalance, useChainId, useSwitchChain, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getActiveChain, getExplorerAddressUrl, getExplorerTxUrl } from '../lib/chains.js';
 
 const MIN_ETH = 0.01;
@@ -17,7 +18,12 @@ function getErrorMessage(err) {
   return msg.length > 220 ? msg.slice(0, 220) + '...' : msg;
 }
 
-export function PresaleCard() {
+function truncateAddress(addr) {
+  if (!addr) return '';
+  return `${addr.slice(0, 8)}...${addr.slice(-6)}`;
+}
+
+export function PresaleCard({ onRaisedChange }) {
   const activeChain = getActiveChain();
   const receivingAddress = process.env.NEXT_PUBLIC_RECEIVING_ADDRESS || '0xdccbFd7A2562e2263E1036338C83dc79F5a4819D';
   const hasReceivingAddress = receivingAddress && receivingAddress !== '0x0000000000000000000000000000000000000000';
@@ -40,6 +46,10 @@ export function PresaleCard() {
 
   const raisedEth = raiseBalance ? Number(formatEther(raiseBalance.value)) : 0;
 
+  useEffect(() => {
+    onRaisedChange?.(`${raisedEth.toFixed(4)} ETH`);
+  }, [raisedEth, onRaisedChange]);
+
   const isWrongNetwork = isConnected && chainId !== activeChain.id;
 
   const [amount, setAmount] = useState('');
@@ -61,7 +71,6 @@ export function PresaleCard() {
     const num = Number(amount);
     if (Number.isNaN(num)) return { valid: false, error: 'Invalid number.' };
     if (num < MIN_ETH) return { valid: false, error: `Minimum is ${MIN_ETH} ETH.` };
-    // no max — per spec max can be any amount
     if (userBalance) {
       const gasReserve = parseEther('0.001');
       const available = userBalance.value > gasReserve ? userBalance.value - gasReserve : BigInt(0);
@@ -72,7 +81,8 @@ export function PresaleCard() {
     return { valid: true, error: null, parsed };
   }, [amount, userBalance]);
 
-  const canSubmit = isConnected && !isWrongNetwork && validation.valid && !isSending && !isConfirming && hasReceivingAddress;
+  const isProcessing = isSending || isConfirming;
+  const canSubmit = isConnected && !isWrongNetwork && validation.valid && !isProcessing && hasReceivingAddress;
 
   useEffect(() => {
     if (!isConfirmed || !txHash || !address || !amount) return;
@@ -110,55 +120,73 @@ export function PresaleCard() {
     try {
       await navigator.clipboard.writeText(receivingAddress);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
+      setTimeout(() => setCopied(false), 1500);
     } catch {}
   };
 
   return (
-    <div className="presale-wrap">
-      {/* Raised — only show amount raised, no cap */}
-      <div className="raised-card raised-card--single">
-        <div className="raised-single">
-          <span className="raised-label">Raised</span>
-          <span className="raised-value raised-value--large">
-            {hasReceivingAddress ? `${raisedEth.toFixed(4)} ETH` : '— ETH'}
+    <div className="terminal-panel-wrap">
+      {/* Top Row: RAISED + Amount */}
+      <div className="terminal-raised-card">
+        <div className="terminal-raised-inner">
+          <span className="terminal-raised-label">RAISED</span>
+          <span className="terminal-raised-value font-mono">
+            {hasReceivingAddress ? `${raisedEth.toFixed(4)} ETH` : '0.0000 ETH'}
           </span>
         </div>
       </div>
 
-      {/* Vault address */}
-      <div className="vault-pill">
-        <code title={receivingAddress}>{receivingAddress}</code>
-        <div className="vault-actions">
-          <button onClick={copyVault} className="vault-btn" type="button">
-            {copied ? 'Copied' : 'Copy'}
+      {/* Wallet Address Field with COPY & BLOCKSCOUT */}
+      <div className="terminal-vault-field">
+        <div className="vault-addr-display">
+          <span className="vault-addr-text font-mono" title={receivingAddress}>
+            {truncateAddress(receivingAddress)}
+          </span>
+        </div>
+        <div className="vault-action-buttons">
+          <button
+            onClick={copyVault}
+            className={`vault-action-btn vault-action-btn--copy interactive-hover ${copied ? 'vault-action-btn--copied' : ''}`}
+            type="button"
+          >
+            {copied ? 'COPIED ✓' : 'COPY'}
           </button>
           <a
             href={explorerAddrUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="vault-btn"
-            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}
+            className="vault-action-btn vault-action-btn--explorer interactive-hover"
           >
-            Blockscout ↗
+            BLOCKSCOUT ↗
           </a>
         </div>
       </div>
-      <div className="vault-meta">
-        Funds → Pons Launchpad. <a href={explorerAddrUrl} target="_blank" rel="noopener noreferrer">Audit inflows live ↗</a>
+
+      {/* Subtext: Funds info */}
+      <div className="terminal-meta-note">
+        <span>Funds → Pons Launchpad. </span>
+        <a href={explorerAddrUrl} target="_blank" rel="noopener noreferrer" className="neon-link">
+          Audit inflows live ↗
+        </a>
       </div>
 
+      {/* Wrong Network Notice / Switch Button */}
       {isConnected && isWrongNetwork && (
-        <button onClick={() => switchChain({ chainId: activeChain.id })} disabled={isSwitching} className="donate-btn" type="button">
-          {isSwitching ? 'Switching...' : `Switch to ${activeChain.name}`}
+        <button
+          onClick={() => switchChain({ chainId: activeChain.id })}
+          disabled={isSwitching}
+          className="switch-network-btn interactive-hover"
+          type="button"
+        >
+          {isSwitching ? 'Switching Network...' : `Switch to ${activeChain.name}`}
         </button>
       )}
 
-      {/* Amount */}
-      <div className="amount-stack">
-        <div className="amount-field-wrap">
+      {/* Donation Amount Stack */}
+      <div className="terminal-amount-stack">
+        <div className="terminal-input-container">
           <input
-            className="amount-input"
+            className="terminal-amount-input font-mono"
             type="text"
             inputMode="decimal"
             placeholder="0.05"
@@ -168,62 +196,154 @@ export function PresaleCard() {
               if (v === '' || /^[0-9]*\.?[0-9]*$/.test(v)) setAmount(v);
             }}
             onBlur={() => setTouched(true)}
+            aria-label="Donation amount in ETH"
           />
-          <span className="amount-suffix">ETH</span>
+          <span className="terminal-currency-suffix">ETH</span>
         </div>
-        <div className="preset-row">
+
+        {/* Quick Amount Buttons: 0.01, 0.1, 0.5, 1, MAX */}
+        <div className="quick-amount-row">
           {['0.01', '0.1', '0.5', '1'].map((v) => (
-            <button key={v} type="button" onClick={() => { setAmount(v); setTouched(true); }} className={`preset-btn ${amount === v ? 'active' : ''}`}>
+            <button
+              key={v}
+              type="button"
+              onClick={() => {
+                setAmount(v);
+                setTouched(true);
+              }}
+              className={`quick-amount-btn font-mono interactive-hover ${amount === v ? 'quick-amount-btn--active' : ''}`}
+            >
               {v}
             </button>
           ))}
-          <button type="button" onClick={() => { if (userBalance) { const avail = userBalance.value - parseEther('0.001'); if (avail > 0) setAmount(formatEther(avail)); setTouched(true); } }} className="preset-btn">
+          <button
+            type="button"
+            onClick={() => {
+              if (userBalance) {
+                const avail = userBalance.value - parseEther('0.001');
+                if (avail > 0) setAmount(formatEther(avail));
+                setTouched(true);
+              }
+            }}
+            className="quick-amount-btn font-mono interactive-hover"
+          >
             MAX
           </button>
         </div>
-        {touched && validation.error && <div className="inline-error">{validation.error}</div>}
-        {!isConnected && <div className="inline-hint">Connect wallet to donate. Min {MIN_ETH} ETH — no max.</div>}
-        {isWrongNetwork && <div className="inline-hint">Switch to {activeChain.name} to continue.</div>}
-        {!hasReceivingAddress && <div className="inline-error">Vault address not set — donations disabled. Owner: set NEXT_PUBLIC_RECEIVING_ADDRESS.</div>}
+
+        {/* Inline Validations & Hints */}
+        {touched && validation.error && (
+          <motion.div
+            className="terminal-inline-error"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            {validation.error}
+          </motion.div>
+        )}
+
+        {!isConnected && (
+          <div className="terminal-inline-hint">
+            Connect wallet to donate. Min {MIN_ETH} ETH — no max.
+          </div>
+        )}
+        {isWrongNetwork && (
+          <div className="terminal-inline-hint">
+            Switch to {activeChain.name} to continue.
+          </div>
+        )}
+        {!hasReceivingAddress && (
+          <div className="terminal-inline-error">
+            Vault address not set — donations disabled.
+          </div>
+        )}
       </div>
 
-      <button onClick={handleDonate} disabled={!canSubmit} className="donate-btn" type="button">
-        {isSending || isConfirming ? (
-          <>
-            <span className="spinner" /> {isConfirming ? 'Confirming...' : 'Waiting signature...'}
-          </>
+      {/* Main Wide DONATE Button */}
+      <button
+        onClick={handleDonate}
+        disabled={!canSubmit}
+        className={`terminal-donate-btn interactive-hover ${
+          validation.valid && isConnected && !isWrongNetwork ? 'terminal-donate-btn--ready' : ''
+        } ${isProcessing ? 'terminal-donate-btn--loading' : ''}`}
+        type="button"
+      >
+        {isProcessing && <div className="donate-laser-scan" />}
+        {isProcessing ? (
+          <span className="donate-btn-text">
+            <span className="loading-spinner" /> PROCESSING...
+          </span>
         ) : (
-          'Donate'
+          <span className="donate-btn-text">DONATE</span>
         )}
       </button>
 
+      {/* Send Error Notice */}
       {sendError && (
-        <div className="inline-error">
-          {getErrorMessage(sendError)}{' '}
-          <button onClick={() => resetSend()} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: '#ff8a8a', cursor: 'pointer' }}>
+        <motion.div
+          className="terminal-inline-error error-shake"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <span>{getErrorMessage(sendError)}</span>{' '}
+          <button
+            onClick={() => resetSend()}
+            className="error-dismiss-btn"
+            type="button"
+          >
             Dismiss
           </button>
-        </div>
+        </motion.div>
       )}
 
+      {/* Success Confirmation Card */}
       {txHash && (
-        <div className="success-card">
-          <div className="success-title">{isConfirmed ? '✓ Donated!' : isConfirming ? 'Submitted — confirming...' : 'Sent!'}</div>
-          <a href={explorerTxUrl} target="_blank" rel="noopener noreferrer" className="success-hash">
-            {txHash} ↗
+        <motion.div
+          className="terminal-success-card"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="success-header">
+            <div className="success-check-badge">✓</div>
+            <span className="success-title font-display">
+              {isConfirmed ? 'DONATION CONFIRMED' : isConfirming ? 'SUBMITTED — CONFIRMING...' : 'TRANSACTION SENT'}
+            </span>
+          </div>
+
+          <a
+            href={explorerTxUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="success-tx-link font-mono"
+          >
+            View on Explorer: {txHash.slice(0, 16)}...{txHash.slice(-8)} ↗
           </a>
-          {receipt && <div className="success-meta">Block #{receipt.blockNumber.toString()} · Status: {receipt.status}</div>}
-          {recordStatus && <div className="success-meta">{recordStatus}</div>}
+
+          {receipt && (
+            <div className="success-meta-info font-mono">
+              Block #{receipt.blockNumber.toString()} · Status: {receipt.status}
+            </div>
+          )}
+
+          {recordStatus && <div className="success-meta-info">{recordStatus}</div>}
+
           {isConfirmed && (
             <button
-              onClick={() => { setAmount(''); setTouched(false); setRecordStatus(null); resetSend(); }}
-              style={{ fontSize: '0.7rem', color: '#aaa', background: 'none', border: 'none', textDecoration: 'underline', cursor: 'pointer', alignSelf: 'flex-start' }}
+              onClick={() => {
+                setAmount('');
+                setTouched(false);
+                setRecordStatus(null);
+                resetSend();
+              }}
+              className="donate-again-btn"
+              type="button"
             >
-              Donate again
+              Donate again ↺
             </button>
           )}
-        </div>
+        </motion.div>
       )}
     </div>
   );
 }
+
