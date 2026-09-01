@@ -265,10 +265,23 @@ html, body {
   opacity: 1;
 }
 
+.top-control-btn--wallet {
+  font-family: 'The Last Shuriken', sans-serif;
+  letter-spacing: 1px;
+}
+
 .top-control-btn--connect {
   background: linear-gradient(135deg, rgba(57, 255, 20, 0.2) 0%, rgba(24, 214, 43, 0.1) 100%);
   border-color: rgba(57, 255, 20, 0.45);
   color: var(--neon-green);
+  font-family: 'The Last Shuriken', sans-serif;
+  letter-spacing: 1.5px;
+}
+
+.top-control-btn--connect .control-text {
+  font-family: 'The Last Shuriken', sans-serif;
+  letter-spacing: 1.5px;
+  font-size: 0.88rem;
 }
 
 .top-control-btn--connect:hover {
@@ -780,6 +793,7 @@ html, body {
   font-weight: 900;
   color: #030504;
   letter-spacing: 1.5px;
+  text-decoration: none;
   cursor: pointer;
   box-shadow: 0 6px 25px rgba(57, 255, 20, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);

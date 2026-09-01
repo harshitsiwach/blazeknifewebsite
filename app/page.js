@@ -63,16 +63,16 @@ export default function HomePage() {
 
             {/* Large CTA: PLAY Button */}
             <div className="play-button-wrap">
-              <button
+              <a
+                href="https://x.com/blazeknifehood/status/2078937846841540747"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hero-play-cta interactive-hover"
-                type="button"
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                aria-label="Play Blaze Knife Game"
               >
                 <span className="play-text">PLAY</span>
                 <span className="play-arrow">▶</span>
-              </button>
+              </a>
             </div>
 
             {/* Donation Terminal Panel */}

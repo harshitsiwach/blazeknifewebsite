@@ -196,7 +196,7 @@ export function TopBar() {
 
                       {/* 3. Twitter / X Button (Visible on Desktop & Mobile) */}
                       <a
-                        href="https://x.com/blazeknifewebsite"
+                        href="https://x.com/blazeknifehood"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="top-control-btn top-control-btn--x interactive-hover"
@@ -295,7 +295,7 @@ export function TopBar() {
 
                 {/* 2. Twitter / X Community Button in Drawer */}
                 <a
-                  href="https://x.com/blazeknifewebsite"
+                  href="https://x.com/blazeknifehood"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cyber-drawer-twitter-btn interactive-hover"
