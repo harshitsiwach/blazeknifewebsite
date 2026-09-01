@@ -10,7 +10,13 @@ export function CustomCursor() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    if (!isFinePointer) return;
+    const hasTouch = 'ontouchstart' in window || (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
+    
+    // Completely disable on mobile and touch devices
+    if (!isFinePointer || hasTouch) {
+      setIsTouch(true);
+      return;
+    }
 
     setIsTouch(false);
 

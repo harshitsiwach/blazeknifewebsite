@@ -428,3 +428,92 @@
   align-self: flex-start;
   margin-top: 4px;
 }
+
+/* ================================================= */
+/* PRESALE RESPONSIVE MOBILE STYLES                  */
+/* ================================================= */
+@media (max-width: 600px) {
+  .terminal-panel-wrap {
+    padding: 16px 14px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+
+  .terminal-raised-card {
+    padding: 8px 12px;
+  }
+
+  .terminal-raised-label {
+    font-size: 0.7rem;
+  }
+
+  .terminal-raised-value {
+    font-size: 1.05rem;
+  }
+
+  .terminal-vault-field {
+    padding: 7px 10px;
+    gap: 6px;
+  }
+
+  .vault-addr-text {
+    font-size: 0.72rem;
+  }
+
+  .vault-action-btn {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+  }
+
+  .terminal-meta-note {
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+
+  .terminal-amount-input {
+    padding: 11px 54px 11px 16px;
+    font-size: 1.05rem; /* Prevents iOS auto-zoom */
+  }
+
+  .terminal-currency-suffix {
+    right: 16px;
+    font-size: 0.85rem;
+  }
+
+  .quick-amount-row {
+    gap: 5px;
+  }
+
+  .quick-amount-btn {
+    padding: 7px 0;
+    font-size: 0.74rem;
+  }
+
+  .terminal-donate-btn {
+    padding: 12px 18px;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 380px) {
+  .terminal-vault-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .vault-addr-display {
+    text-align: center;
+  }
+
+  .vault-action-buttons {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .vault-action-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
