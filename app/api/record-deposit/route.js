@@ -3,6 +3,8 @@ import { createPublicClient, http, parseEther, formatEther, isAddress } from 'vi
 import { robinhoodChain, robinhoodTestnet } from '../../../lib/chains.js';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getSupabaseService, isSupabaseConfigured } from '../../../lib/supabase.js';
+import { normalizeAddress } from '../../../lib/referral.js';
 
 const rateMap = new Map();
 const RATE_LIMIT = 10;
@@ -32,6 +34,24 @@ function getClient() {
   return createPublicClient({ chain, transport: http(rpcUrl) });
 }
 
+// --- Fallback JSON store (used when Supabase not configured) ---
+async function readDepositsJson() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'deposits.json');
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+async function writeDepositsJson(arr) {
+  const dataDir = path.join(process.cwd(), 'data');
+  await fs.mkdir(dataDir, { recursive: true });
+  const filePath = path.join(dataDir, 'deposits.json');
+  await fs.writeFile(filePath, JSON.stringify(arr, null, 2), 'utf-8');
+}
+
 export async function POST(req) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
   if (isRateLimited(ip)) {
@@ -43,7 +63,7 @@ export async function POST(req) {
   } catch {
     return NextResponse.json({ error: 'Invalid JSON.' }, { status: 400 });
   }
-  const { walletAddress, amountEth, txHash } = body;
+  const { walletAddress, amountEth, txHash, referrer } = body;
   if (!walletAddress || !amountEth || !txHash) {
     return NextResponse.json({ error: 'Missing walletAddress, amountEth, or txHash.' }, { status: 400 });
   }
@@ -58,11 +78,17 @@ export async function POST(req) {
   if (claimedValue < parseEther('0.01')) {
     return NextResponse.json({ error: 'amountEth must be >= 0.01' }, { status: 400 });
   }
-  // no max per user request — any amount above min allowed
 
   const receivingAddress = process.env.NEXT_PUBLIC_RECEIVING_ADDRESS;
   if (!receivingAddress || !isAddress(receivingAddress)) {
     return NextResponse.json({ error: 'Server misconfigured: NEXT_PUBLIC_RECEIVING_ADDRESS not set.' }, { status: 500 });
+  }
+
+  // Normalize referrer: wallet address, never self, never vault, nullable forever-valid
+  let normalizedReferrer = normalizeAddress(referrer);
+  if (normalizedReferrer) {
+    if (normalizedReferrer === walletAddress.toLowerCase()) normalizedReferrer = null; // self-ref => null (don't error, just no credit)
+    else if (normalizedReferrer === receivingAddress.toLowerCase()) normalizedReferrer = null;
   }
 
   try {
@@ -81,36 +107,57 @@ export async function POST(req) {
     }
 
     const record = {
-      walletAddress,
-      amountEth,
-      amountWei: tx.value.toString(),
-      txHash,
-      blockNumber: receipt.blockNumber.toString(),
+      wallet_address: walletAddress.toLowerCase(),
+      amount_eth: amountEth,
+      amount_wei: tx.value.toString(),
+      tx_hash: txHash,
+      block_number: receipt.blockNumber.toString(),
+      referrer: normalizedReferrer,
       timestamp: new Date().toISOString(),
-      chainId: tx.chainId,
+      chain_id: Number(tx.chainId ?? receipt.chainId ?? 0),
+    };
+    // shape for JSON fallback (camelCase for backwards compat)
+    const jsonRecord = {
+      walletAddress: record.wallet_address,
+      amountEth: record.amount_eth,
+      amountWei: record.amount_wei,
+      txHash: record.tx_hash,
+      blockNumber: record.block_number,
+      referrer: record.referrer,
+      timestamp: record.timestamp,
+      chainId: record.chain_id,
     };
 
-    try {
-      const dataDir = path.join(process.cwd(), 'data');
-      await fs.mkdir(dataDir, { recursive: true });
-      const filePath = path.join(dataDir, 'deposits.json');
-      let existing = [];
-      try {
-        const raw = await fs.readFile(filePath, 'utf-8');
-        existing = JSON.parse(raw);
-        if (!Array.isArray(existing)) existing = [];
-      } catch {}
-      if (existing.some((r) => r.txHash === txHash)) {
-        return NextResponse.json({ ok: true, record, deduped: true });
+    // Try Supabase if configured, else JSON fallback
+    if (isSupabaseConfigured) {
+      const supabase = getSupabaseService();
+      if (supabase) {
+        const { error } = await supabase.from('deposits').insert(record);
+        if (error) {
+          // dedup: unique tx_hash
+          if (error.code === '23505' || error.message?.toLowerCase().includes('duplicate')) {
+            return NextResponse.json({ ok: true, record: jsonRecord, deduped: true, referrer: normalizedReferrer });
+          }
+          console.error('Supabase insert error:', error);
+          // Fallback to JSON so we don't lose verified deposit if Supabase hiccups
+          const existing = await readDepositsJson();
+          if (existing.some((r) => r.txHash === txHash)) return NextResponse.json({ ok: true, record: jsonRecord, deduped: true, referrer: normalizedReferrer });
+          existing.push(jsonRecord);
+          await writeDepositsJson(existing);
+          return NextResponse.json({ ok: true, record: jsonRecord, warning: `Supabase failed, saved locally: ${error.message}`, referrer: normalizedReferrer });
+        }
+        return NextResponse.json({ ok: true, record: jsonRecord, referrer: normalizedReferrer });
       }
-      existing.push(record);
-      await fs.writeFile(filePath, JSON.stringify(existing, null, 2), 'utf-8');
-    } catch (e) {
-      console.error('Failed to write deposit record:', e);
-      return NextResponse.json({ ok: true, record, warning: 'Verified but failed to persist locally.' });
     }
 
-    return NextResponse.json({ ok: true, record });
+    // JSON fallback
+    const existing = await readDepositsJson();
+    if (existing.some((r) => r.txHash === txHash)) {
+      return NextResponse.json({ ok: true, record: jsonRecord, deduped: true, referrer: normalizedReferrer });
+    }
+    existing.push(jsonRecord);
+    await writeDepositsJson(existing);
+    return NextResponse.json({ ok: true, record: jsonRecord, referrer: normalizedReferrer });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     console.error('record-deposit verify error:', msg);
@@ -122,12 +169,22 @@ export async function POST(req) {
 }
 
 export async function GET() {
+  // Try Supabase first
+  if (isSupabaseConfigured) {
+    const supabase = getSupabaseService();
+    if (supabase) {
+      const { data, error } = await supabase.from('deposits').select('amount_eth');
+      if (!error && data) {
+        const total = data.reduce((sum, r) => sum + Number(r.amount_eth || 0), 0);
+        return NextResponse.json({ count: data.length, totalEth: total });
+      }
+    }
+  }
+  // JSON fallback
   try {
-    const filePath = path.join(process.cwd(), 'data', 'deposits.json');
-    const raw = await fs.readFile(filePath, 'utf-8');
-    const arr = JSON.parse(raw);
-    const total = Array.isArray(arr) ? arr.reduce((sum, r) => sum + Number(r.amountEth || 0), 0) : 0;
-    return NextResponse.json({ count: Array.isArray(arr) ? arr.length : 0, totalEth: total });
+    const arr = await readDepositsJson();
+    const total = arr.reduce((sum, r) => sum + Number(r.amountEth || r.amount_eth || 0), 0);
+    return NextResponse.json({ count: arr.length, totalEth: total });
   } catch {
     return NextResponse.json({ count: 0, totalEth: 0 });
   }

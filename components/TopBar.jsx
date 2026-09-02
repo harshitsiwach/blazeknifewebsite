@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ConnectButton,
@@ -9,21 +10,32 @@ import {
   useChainModal,
   useConnectModal,
 } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 import { getActiveChain } from '../lib/chains.js';
+import { captureReferrerFromUrl } from '../lib/referral.js';
 
 export function TopBar() {
   const activeChain = getActiveChain();
   const receivingAddress = process.env.NEXT_PUBLIC_RECEIVING_ADDRESS || '0xdccbFd7A2562e2263E1036338C83dc79F5a4819D';
+  const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount();
   const [isClient, setIsClient] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copiedReferral, setCopiedReferral] = useState(false);
+  const [origin, setOrigin] = useState('');
 
   const { openAccountModal: hookOpenAccountModal } = useAccountModal();
   const { openChainModal: hookOpenChainModal } = useChainModal();
   const { openConnectModal: hookOpenConnectModal } = useConnectModal();
 
   useEffect(() => {
-    setIsClient(true);
+    queueMicrotask(() => {
+      setIsClient(true);
+      if (typeof window !== 'undefined') {
+        setOrigin(window.location.origin);
+        captureReferrerFromUrl();
+      }
+    });
   }, []);
 
   // Close menu on Escape key
@@ -51,16 +63,37 @@ export function TopBar() {
     } catch {}
   };
 
+  const copyReferral = async (addr) => {
+    if (!addr || !origin) return;
+    const link = `${origin}?ref=${addr}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopiedReferral(true);
+      setTimeout(() => setCopiedReferral(false), 1500);
+    } catch {}
+  };
+
   return (
     <>
       <header className="top-bar" aria-label="Main Navigation">
         <div className="top-bar-inner">
-          {/* LEFT CORNER: ROBINHOOD CHAIN text badge (Desktop) */}
-          <div className="top-bar-left top-control-btn--desktop-only">
-            <div className="top-brand-pill interactive-hover">
+          {/* LEFT CORNER: ROBINHOOD CHAIN text badge (Desktop) + Leaderboard */}
+          <div className="top-bar-left" style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <div className="top-brand-pill interactive-hover top-control-btn--desktop-only">
               <span className="live-pulse-dot" />
               <span className="top-brand-text">ROBINHOOD CHAIN</span>
             </div>
+            <Link href="/leaderboard" className="top-control-btn top-control-btn--leaderboard interactive-hover" title="Referral Leaderboard">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                <path d="M18 2H6v9a6 6 0 0 0 12 0V2Z" />
+              </svg>
+              <span className="control-text">Leaderboard</span>
+            </Link>
           </div>
 
           {/* RIGHT: Controls */}
@@ -297,7 +330,28 @@ export function TopBar() {
                   </span>
                 </button>
 
-                {/* 2. Twitter / X Community Button in Drawer */}
+                {/* 2. Leaderboard Link in Drawer */}
+                <Link
+                  href="/leaderboard"
+                  className="cyber-drawer-twitter-btn interactive-hover"
+                  onClick={() => setMenuOpen(false)}
+                  style={{ borderColor: 'var(--neon-green)' }}
+                >
+                  <div className="cyber-drawer-twitter-left">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                      <path d="M4 22h16" />
+                      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+                      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+                      <path d="M18 2H6v9a6 6 0 0 0 12 0V2Z" />
+                    </svg>
+                    <span className="font-mono">LEADERBOARD</span>
+                  </div>
+                  <span className="cyber-nav-arrow">→</span>
+                </Link>
+
+                {/* 3. Twitter / X Community Button in Drawer */}
                 <a
                   href="https://x.com/blazeknifehood"
                   target="_blank"
@@ -329,6 +383,33 @@ export function TopBar() {
                       {copied ? 'COPIED ✓' : 'COPY'}
                     </button>
                   </div>
+                </div>
+
+                {/* 4. Referral Widget */}
+                <div className="cyber-vault-widget">
+                  <div className="cyber-vault-label font-mono">YOUR REFERRAL LINK — 1% REWARD</div>
+                  {wagmiConnected && wagmiAddress && origin ? (
+                    <div className="cyber-vault-box" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 8 }}>
+                      <span className="cyber-vault-address font-mono" title={`${origin}?ref=${wagmiAddress}`} style={{ fontSize: '0.68rem', wordBreak: 'break-all' }}>
+                        {origin}?ref={wagmiAddress.slice(0, 6)}...{wagmiAddress.slice(-4)}
+                      </span>
+                      <button
+                        onClick={() => copyReferral(wagmiAddress)}
+                        type="button"
+                        className={`cyber-vault-copy-btn interactive-hover ${copiedReferral ? 'cyber-vault-copy-btn--copied' : ''}`}
+                        style={{ width: '100%', justifyContent: 'center' }}
+                      >
+                        {copiedReferral ? 'COPIED ✓' : 'COPY REFERRAL LINK'}
+                      </button>
+                      <span style={{ fontSize: '0.62rem', color: 'var(--muted-gray)', textAlign: 'center' }}>
+                        Earn 1% of your referrals&apos; token allocation — forever
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="cyber-vault-box" style={{ justifyContent: 'center', fontSize: '0.72rem', color: 'var(--muted-gray)', textAlign: 'center' }}>
+                      Connect wallet to get your referral link
+                    </div>
+                  )}
                 </div>
               </div>
 

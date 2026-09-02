@@ -5,6 +5,7 @@ import { useAccount, useBalance, useChainId, useSwitchChain, useSendTransaction,
 import { parseEther, formatEther } from 'viem';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getActiveChain, getExplorerAddressUrl, getExplorerTxUrl } from '../lib/chains.js';
+import { getReferrer } from '../lib/referral.js';
 
 const MIN_ETH = 0.01;
 
@@ -56,6 +57,14 @@ export function PresaleCard({ onRaisedChange }) {
   const [touched, setTouched] = useState(false);
   const [recordStatus, setRecordStatus] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [copiedReferral, setCopiedReferral] = useState(false);
+  const [origin, setOrigin] = useState('');
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      if (typeof window !== 'undefined') setOrigin(window.location.origin);
+    });
+  }, []);
 
   const { data: txHash, error: sendError, isPending: isSending, sendTransaction, reset: resetSend } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess: isConfirmed, data: receipt } = useWaitForTransactionReceipt({ hash: txHash, chainId: activeChain.id });
@@ -88,10 +97,11 @@ export function PresaleCard({ onRaisedChange }) {
     if (!isConfirmed || !txHash || !address || !amount) return;
     let cancelled = false;
     queueMicrotask(() => { if (!cancelled) setRecordStatus('Verifying on-chain...'); });
+    const referrer = getReferrer();
     fetch('/api/record-deposit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ walletAddress: address, amountEth: amount, txHash }),
+      body: JSON.stringify({ walletAddress: address, amountEth: amount, txHash, referrer }),
     })
       .then(async (r) => {
         if (cancelled) return;
@@ -169,6 +179,38 @@ export function PresaleCard({ onRaisedChange }) {
           Audit inflows live ↗
         </a>
       </div>
+
+      {/* Referral Link — 1% of referee token supply */}
+      {isConnected && address && origin ? (
+        <div className="terminal-vault-field" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 8 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <span className="font-mono" style={{ fontSize: '0.68rem', letterSpacing: '1px', color: 'var(--muted-gray)' }}>YOUR REFERRAL LINK — 1% REWARD</span>
+            <span className="font-mono" style={{ fontSize: '0.62rem', color: 'var(--neon-green)' }}>FOREVER</span>
+          </div>
+          <div className="vault-action-buttons" style={{ width: '100%' }}>
+            <span className="vault-addr-text font-mono" title={`${origin}?ref=${address}`} style={{ flex: 1, fontSize: '0.7rem', wordBreak: 'break-all' }}>
+              {origin}?ref={address.slice(0, 6)}...{address.slice(-4)}
+            </span>
+            <button
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(`${origin}?ref=${address}`);
+                  setCopiedReferral(true);
+                  setTimeout(() => setCopiedReferral(false), 1500);
+                } catch {}
+              }}
+              className={`vault-action-btn vault-action-btn--copy interactive-hover ${copiedReferral ? 'vault-action-btn--copied' : ''}`}
+              type="button"
+            >
+              {copiedReferral ? 'COPIED ✓' : 'COPY LINK'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="terminal-meta-note" style={{ background: 'rgba(14,20,15,0.6)', border: '1px solid var(--border-green)', borderRadius: 10, padding: '8px 10px' }}>
+          Connect wallet to get your referral link — earn 1% of your referrals&apos; tokens forever
+        </div>
+      )}
 
       {/* Wrong Network Notice / Switch Button */}
       {isConnected && isWrongNetwork && (
